@@ -57,6 +57,16 @@ int compare_z(const void *a, const void *b) {
     double diff = ((Point *)a)->z - ((Point *)b)->z;
     return (diff > 0) - (diff < 0);
 }
+
+double dist_sq(Point p1, Point p2) {
+    return (p1.x - p2.x)*(p1.x - p2.x) + 
+           (p1.y - p2.y)*(p1.y - p2.y) + 
+           (p1.z - p2.z)*(p1.z - p2.z);
+}
+
+double dist_km(Point p1, Point p2) {
+    return sqrt(dist_sq(p1, p2));
+}
 // CSV Parsing
 
 void parse_csv_line(char *line, Point *p) {
@@ -136,6 +146,99 @@ KDNode* build_kdtree(Point *points, int n, int depth){
     node->right = build_kdtree(points + mid + 1, n - mid - 1, depth + 1);
 
     return node;
+}
+
+void free_kdtree(KDNode *node){
+    if(!node) return;
+    free_kdtree(node->left);
+    free_kdtree(node->right);  
+    free(node);
+}
+
+
+// Nearest Neighbor Search
+void find_nearest(KDNode *root, Point target, const char *category, KDNode **best_node, double *best_dist_sq) {
+    if (!root) return;
+
+    double d = dist_sq(root->point, target);
+    int matches_cat = (strcmp(category, "all") == 0) || (strcmp(root->point.amenity, category) == 0);
+
+    if (d < *best_dist_sq && matches_cat) {
+        *best_dist_sq = d;
+        *best_node = root;
+    }
+
+    double diff;
+    if (root->axis == 0) diff = target.x - root->point.x;
+    else if (root->axis == 1) diff = target.y - root->point.y;
+    else diff = target.z - root->point.z;
+
+    KDNode *near = (diff < 0) ? root->left : root->right;
+    KDNode *far = (diff < 0) ? root->right : root->left;
+
+    find_nearest(near, target, category, best_node, best_dist_sq);
+
+    if ((diff * diff) < *best_dist_sq) {
+        find_nearest(far, target, category, best_node, best_dist_sq);
+    }
+}
+
+// Main Function
+int main(){
+    Point *points = NULL;
+    int count = load_points("coordinates.csv", &points);
+
+    if(count == 0){
+        printf("No points loaded.\n");
+        return 1;
+    }
+
+    printf("Successfully loaded %d locations.\n", count);
+    printf("Building KD-Tree...\n");
+
+    KDNode *root = build_kdtree(points, count, 0);
+    printf("KD-Tree built.\n");
+
+    double lat, lon;
+    char category[MAX_CAT_LEN];
+
+    printf("=== Map Search Tool ===\n");
+    while(1) {
+        printf("Enter your location (Lat Lon) or -1 to quit: ");
+        if (scanf("%lf", &lat) != 1 || lat == -1) break;
+        scanf("%lf", &lon);
+
+        printf("Enter category (hospital, restaurant, atm, all): ");
+        scanf("%s", category);
+
+        // Prepare target
+        Point target;
+        target.lat = lat;
+        target.lon = lon;
+        lat_lon_to_ecef(lat, lon, &target.x, &target.y, &target.z);
+
+        // Search
+        KDNode *best_node = NULL;
+        double best_dist_sq = 1e18; // Infinity
+
+        find_nearest(root, target, category, &best_node, &best_dist_sq);
+
+        if (best_node) {
+            double dist = dist_km(target, best_node->point);
+            printf("\n--- Nearest %s ---\n", category);
+            printf("Name:      %s\n", best_node->point.name);
+            printf("Type:      %s\n", best_node->point.amenity);
+            printf("Distance:  %.2f km\n", dist);
+            printf("Location:  %.5f, %.5f\n\n", best_node->point.lat, best_node->point.lon);
+        } else {
+            printf("No matching locations found.\n");
+        }
+    }
+
+    // Cleanup
+    free_kdtree(root);
+    free(points);
+    return 0;
 }
 
 // Loading CSV file
