@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Map Search Tool</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+#map{height:100vh;}
+#title { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; font-size: 24px; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.3); text-align: center; }
+#category { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 10px; font-size: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); } 
+#category select, #category input { padding: 5px; border-radius: 5px; border: solid black; font-size: 16px; margin-left:5px; }
+#resultsBox{position:absolute;bottom:50px;left:30px;background:white;padding:10px;z-index:1000;border-radius:6px; max-height: 200px; overflow-y: auto;}
+button { margin-left:5px; padding:5px 10px; border-radius:5px; border:none; cursor:pointer; }
+button.active { background:#3498db; color:white; }
+</style>
+</head>
+<body>
+<!-- Title and Controls -->
+<div id="title">---CampusNearby---</div>
+<div id="category">
+Category:
+<select id="catSelect">
+<option value="all">All</option>
+<option value="hospital">Hospital</option>
+<option value="restaurant">Restaurant</option>
+<option value="atm">ATM</option>
+</select>
+<button id="nearestBtn" class="active">Find Nearest</button>
+<button id="rangeBtn">Find Within Range</button>
+<input type="number" id="radiusInput" placeholder="km" min="0.1" max="10" step="0.1" style="width:60px; padding:2px; border-radius:4px; border:1px solid #ccc; display:none;">
+</div>
+
+<div id="map"></div>
+<div id="resultsBox"><b>Results</b><ol id="list"></ol></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+const RVCE={lat:12.9237,lon:77.4987};
+let map=L.map('map').setView([RVCE.lat,RVCE.lon],14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+L.marker([RVCE.lat,RVCE.lon]).addTo(map).bindPopup("<b>RV College of Engineering</b>").openPopup();
+
+let nearestMarkers = [];
+let nearestLines = [];
+let searchMode = "nearest";
+
+const nearestBtn = document.getElementById("nearestBtn");
+const rangeBtn = document.getElementById("rangeBtn");
+const radiusInput = document.getElementById("radiusInput");
+const catSelect = document.getElementById("catSelect");
+
+// Button click handlers
+nearestBtn.addEventListener("click", ()=>{
+    searchMode="nearest";
+    nearestBtn.classList.add("active");
+    rangeBtn.classList.remove("active");
+    radiusInput.style.display="none";
+    findAmenities();
+});
+
+rangeBtn.addEventListener("click", ()=>{
+    searchMode="range";
+    nearestBtn.classList.remove("active");
+    rangeBtn.classList.add("active");
+    radiusInput.style.display="inline-block";
+    findAmenities();
+});
+
+catSelect.addEventListener("change", findAmenities);
+radiusInput.addEventListener("input", ()=>{ if(searchMode==="range") findAmenities(); });
+
+// Function to find amenities
+function findAmenities(){
+    const category = catSelect.value;
+    const radius = parseFloat(radiusInput.value);
+
+    let url = `/search?lat=${RVCE.lat}&lon=${RVCE.lon}&category=${category}`;
+    if(searchMode==="range" && !isNaN(radius)) url += `&radius=${radius}`;
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data=>{
+        // Clear previous markers and lines
+        nearestMarkers.forEach(m=>map.removeLayer(m));
+        nearestLines.forEach(l=>map.removeLayer(l));
+        nearestMarkers=[]; nearestLines=[];
+
+        
+        const list = document.getElementById("list");
+        list.innerHTML="";
+
+        data.forEach(p=>{
+            // Marker
+            let marker=L.circleMarker([p.lat,p.lon],{radius:8,color:"red"})
+                .addTo(map)
+                .bindPopup(`<b>${p.name}</b><br>${p.amenity}<br>${p.dist.toFixed(2)} km`);
+            nearestMarkers.push(marker);
+
+            // Line
+            let line=L.polyline([[RVCE.lat,RVCE.lon],[p.lat,p.lon]],{color:'blue'}).addTo(map);
+            nearestLines.push(line);
+
+            // List
+            let li=document.createElement("li");
+            li.textContent=`${p.name} (${p.amenity}) - ${p.dist.toFixed(2)} km`;
+            list.appendChild(li);
+        });
+    });
+}
+
+// Initial load
+findAmenities();
+</script>
+</body>
+</html>

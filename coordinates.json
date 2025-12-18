@@ -1,0 +1,506 @@
+[
+  {
+    "amenity": "hospital",
+    "name": "BGS Gleneagles Hospitals",
+    "lon": 77.4974982,
+    "lat": 12.90306
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Hotel Dream Land",
+    "lon": 77.4973876,
+    "lat": 12.9267671
+  },
+  {
+    "amenity": "restaurant",
+    "name": "The Club",
+    "lon": 77.5169615,
+    "lat": 12.9368003
+  },
+  {
+    "amenity": "atm",
+    "name": "ICICI Bank",
+    "lon": 77.5179968,
+    "lat": 12.9359271
+  },
+  {
+    "amenity": "hospital",
+    "name": "Rc Hospital",
+    "lon": 77.5153776,
+    "lat": 12.930936
+  },
+  {
+    "amenity": "hospital",
+    "name": "Veturi Child Health Centre",
+    "lon": 77.5156579,
+    "lat": 12.9263226
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Beijing Bites",
+    "lon": 77.5206736,
+    "lat": 12.9214078
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Ron-Inn Bar & Restaurant",
+    "lon": 77.513258,
+    "lat": 12.9603129
+  },
+  {
+    "amenity": "hospital",
+    "name": "MEDSOL Hospital",
+    "lon": 77.4929837,
+    "lat": 12.9309944
+  },
+  {
+    "amenity": "restaurant",
+    "name": "PES Food Court",
+    "lon": 77.5343127,
+    "lat": 12.9336327
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Swathi Restaurant",
+    "lon": 77.5075094,
+    "lat": 12.9608966
+  },
+  {
+    "amenity": "hospital",
+    "name": "Panacea Hospital",
+    "lon": 77.511726,
+    "lat": 12.9613237
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Monish Corner",
+    "lon": 77.5199911,
+    "lat": 12.9266584
+  },
+  {
+    "amenity": "hospital",
+    "name": "Vasan Eye Care Hospital",
+    "lon": 77.5154779,
+    "lat": 12.931334
+  },
+  {
+    "amenity": "hospital",
+    "name": "Rajarajeshwari Hospital and Medical College",
+    "lon": 77.4618775,
+    "lat": 12.896052
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Pallavi",
+    "lon": 77.5057926,
+    "lat": 12.9045616
+  },
+  {
+    "amenity": "atm",
+    "name": "Bank of Baroda",
+    "lon": 77.4963246,
+    "lat": 12.899315
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Twillight Tandoor Resto",
+    "lon": 77.5179594,
+    "lat": 12.9313955
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Sri Krishna Nandagokula Veg",
+    "lon": 77.5167879,
+    "lat": 12.9365363
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Kaapi Katte",
+    "lon": 77.520671,
+    "lat": 12.9162563
+  },
+  {
+    "amenity": "restaurant",
+    "name": "OSR Andhra Spice",
+    "lon": 77.5209983,
+    "lat": 12.9061516
+  },
+  {
+    "amenity": "atm",
+    "name": "ICICI",
+    "lon": 77.5344569,
+    "lat": 12.9342254
+  },
+  {
+    "amenity": "hospital",
+    "name": "S K Hospital",
+    "lon": 77.5184436,
+    "lat": 12.957572
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Rotti Mane Dhabha",
+    "lon": 77.5331667,
+    "lat": 12.9070254
+  },
+  {
+    "amenity": "atm",
+    "name": "Axis Bank",
+    "lon": 77.4847857,
+    "lat": 12.9113106
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Royal Andaaz",
+    "lon": 77.4953504,
+    "lat": 12.9220858
+  },
+  {
+    "amenity": "atm",
+    "name": "Karnataka Bank",
+    "lon": 77.52503,
+    "lat": 12.9411112
+  },
+  {
+    "amenity": "hospital",
+    "name": "Usha Vikranth Diagnostic Center and Hospital",
+    "lon": 77.5273633,
+    "lat": 12.9138086
+  },
+  {
+    "amenity": "atm",
+    "name": "State Bank of India",
+    "lon": 77.5304519,
+    "lat": 12.9460972
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Canteen NLSIU",
+    "lon": 77.5171196,
+    "lat": 12.9552984
+  },
+  {
+    "amenity": "atm",
+    "name": "Axis Bank",
+    "lon": 77.5266311,
+    "lat": 12.9433649
+  },
+  {
+    "amenity": "hospital",
+    "name": "Kengeri Upanagara Government Hospital",
+    "lon": 77.4808065,
+    "lat": 12.9156896
+  },
+  {
+    "amenity": "atm",
+    "name": "HDFC Bank",
+    "lon": 77.5367068,
+    "lat": 12.9349665
+  },
+  {
+    "amenity": "hospital",
+    "name": "Abhay Hospital",
+    "lon": 77.4939886,
+    "lat": 12.9517481
+  },
+  {
+    "amenity": "hospital",
+    "name": "Chandana Hospital",
+    "lon": 77.5114394,
+    "lat": 12.9579894
+  },
+  {
+    "amenity": "hospital",
+    "name": "Shreya Hospital",
+    "lon": 77.4832503,
+    "lat": 12.9215104
+  },
+  {
+    "amenity": "hospital",
+    "name": "Sri Annapoorneshwari Hospital",
+    "lon": 77.4857756,
+    "lat": 12.9255704
+  },
+  {
+    "amenity": "hospital",
+    "name": "Mathru Hospital",
+    "lon": 77.4806057,
+    "lat": 12.9110975
+  },
+  {
+    "amenity": "hospital",
+    "name": "Belaku Eye Hospital",
+    "lon": 77.4800451,
+    "lat": 12.9110766
+  },
+  {
+    "amenity": "hospital",
+    "name": "Unity Hospital",
+    "lon": 77.5207892,
+    "lat": 12.910823
+  },
+  {
+    "amenity": "hospital",
+    "name": "HK Hospital",
+    "lon": 77.4784157,
+    "lat": 12.9085981
+  },
+  {
+    "amenity": "hospital",
+    "name": "Vijaya Hospital",
+    "lon": 77.48376,
+    "lat": 12.9418827
+  },
+  {
+    "amenity": "hospital",
+    "name": "Sankalpa Hospital",
+    "lon": 77.4918039,
+    "lat": 12.95119
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Eastwind (Delicious Biryani)",
+    "lon": 77.5176248,
+    "lat": 12.9366068
+  },
+  {
+    "amenity": "atm",
+    "name": "Oriental Bank of Commerce",
+    "lon": 77.5062892,
+    "lat": 12.9304328
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Biryani Bhavan",
+    "lon": 77.4983083,
+    "lat": 12.9246587
+  },
+  {
+    "amenity": "hospital",
+    "name": "Sree Ranga Hospital",
+    "lon": 77.4927128,
+    "lat": 12.9358669
+  },
+  {
+    "amenity": "atm",
+    "name": "Kotak Mahindra Bank",
+    "lon": 77.4993891,
+    "lat": 12.9249186
+  },
+  {
+    "amenity": "atm",
+    "name": "UCO Bank",
+    "lon": 77.5062449,
+    "lat": 12.9316197
+  },
+  {
+    "amenity": "hospital",
+    "name": "Abivrud Cancer Care & Research Centre",
+    "lon": 77.4973049,
+    "lat": 12.963967
+  },
+  {
+    "amenity": "atm",
+    "name": "State Bank of India",
+    "lon": 77.4870761,
+    "lat": 12.9299385
+  },
+  {
+    "amenity": "atm",
+    "name": "ICICI Bank",
+    "lon": 77.4868389,
+    "lat": 12.928684
+  },
+  {
+    "amenity": "hospital",
+    "name": "Adarsh Hospital",
+    "lon": 77.4847891,
+    "lat": 12.9208444
+  },
+  {
+    "amenity": "atm",
+    "name": "Axis Bank",
+    "lon": 77.4856678,
+    "lat": 12.9261822
+  },
+  {
+    "amenity": "atm",
+    "name": "Axis Bank",
+    "lon": 77.5045383,
+    "lat": 12.9614543
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Sarasa Japanese Kitchen",
+    "lon": 77.4847041,
+    "lat": 12.9235809
+  },
+  {
+    "amenity": "atm",
+    "name": "Canara bank",
+    "lon": 77.483471,
+    "lat": 12.9214381
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Hoysala Darshini (veg)",
+    "lon": 77.4850731,
+    "lat": 12.9245385
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Udupi Gardenia",
+    "lon": 77.46676,
+    "lat": 12.9003599
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Pizza Hut",
+    "lon": 77.5253631,
+    "lat": 12.9402744
+  },
+  {
+    "amenity": "atm",
+    "name": "ICICI Bank",
+    "lon": 77.4837747,
+    "lat": 12.9206492
+  },
+  {
+    "amenity": "atm",
+    "name": "Karnataka Bank",
+    "lon": 77.4827407,
+    "lat": 12.910247
+  },
+  {
+    "amenity": "atm",
+    "name": "IDFC First Bank",
+    "lon": 77.4846294,
+    "lat": 12.9115175
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Ba Guru Thindi Madona",
+    "lon": 77.5352415,
+    "lat": 12.9294996
+  },
+  {
+    "amenity": "hospital",
+    "name": "Fortis Hospital",
+    "lon": 77.5112481,
+    "lat": 12.9596032
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Paakashala Heritage",
+    "lon": 77.5307716,
+    "lat": 12.9038928
+  },
+  {
+    "amenity": "atm",
+    "name": "Axis Bank",
+    "lon": 77.5267609,
+    "lat": 12.9496882
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Daysie",
+    "lon": 77.5167967,
+    "lat": 12.9331882
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Soda Factory",
+    "lon": 77.4875539,
+    "lat": 12.9580734
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Serious Slice",
+    "lon": 77.5166559,
+    "lat": 12.9330366
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Kadamba Veg",
+    "lon": 77.4870121,
+    "lat": 12.9138844
+  },
+  {
+    "amenity": "hospital",
+    "name": "Shri Mokambika Women's Clinic Child care and Nethralaya",
+    "lon": 77.4989075,
+    "lat": 12.9519863
+  },
+  {
+    "amenity": "hospital",
+    "name": "Suraksha Diagnostic Centre",
+    "lon": 77.4990341,
+    "lat": 12.9519538
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Kadamba",
+    "lon": 77.4689944,
+    "lat": 12.901609
+  },
+  {
+    "amenity": "restaurant",
+    "name": "154 Breakfast Club",
+    "lon": 77.5133944,
+    "lat": 12.9112491
+  },
+  {
+    "amenity": "restaurant",
+    "name": "MM Foods",
+    "lon": 77.4997987,
+    "lat": 12.9234508
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Hotel Dream Land Family Restaurant",
+    "lon": 77.4985064,
+    "lat": 12.9248386
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Mojo Pizza",
+    "lon": 77.4982973,
+    "lat": 12.9246933
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Paakashala",
+    "lon": 77.5149732,
+    "lat": 12.9300874
+  },
+  {
+    "amenity": "restaurant",
+    "name": "The Green Village Restaurant",
+    "lon": 77.5165647,
+    "lat": 12.8825205
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Karishma Valley Restaurant",
+    "lon": 77.5164708,
+    "lat": 12.8847822
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Season 18 Lounge and Kitchen",
+    "lon": 77.516275,
+    "lat": 12.8882126
+  },
+  {
+    "amenity": "restaurant",
+    "name": "MBR Grand",
+    "lon": 77.5162697,
+    "lat": 12.888414
+  },
+  {
+    "amenity": "restaurant",
+    "name": "Mad Doh Sourdough Pizzeria",
+    "lon": 77.5119377,
+    "lat": 12.9075231
+  }
+]
