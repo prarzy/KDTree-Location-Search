@@ -13,6 +13,12 @@
 #resultsBox{position:absolute;bottom:50px;left:30px;background:white;padding:10px;z-index:1000;border-radius:6px; max-height: 200px; overflow-y: auto;}
 button { margin-left:5px; padding:5px 10px; border-radius:5px; border:none; cursor:pointer; }
 button.active { background:#3498db; color:white; }
+#historyBox { position: absolute; top: 60px; right: 20px; background: white; padding: 10px; z-index: 1000; border-radius: 6px; max-width: 200px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+.historyTitle { font-weight: bold; margin-bottom: 8px; font-size: 14px; }
+.historyItem { padding: 5px; margin: 3px 0; background: #f0f0f0; border-radius: 4px; cursor: pointer; font-size: 12px; border-left: 3px solid #3498db; }
+.historyItem:hover { background: #e0e0e0; }
+.historyClear { font-size: 11px; color: #999; cursor: pointer; margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; }
+.historyClear:hover { color: #666; }
 </style>
 </head>
 <body>
@@ -33,6 +39,11 @@ Category:
 
 <div id="map"></div>
 <div id="resultsBox"><b>Results</b><ol id="list"></ol></div>
+<div id="historyBox">
+    <div class="historyTitle">Search History</div>
+    <div id="historyList"></div>
+    <div class="historyClear" onclick="clearHistory()">Clear history</div>
+</div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
@@ -49,6 +60,71 @@ const nearestBtn = document.getElementById("nearestBtn");
 const rangeBtn = document.getElementById("rangeBtn");
 const radiusInput = document.getElementById("radiusInput");
 const catSelect = document.getElementById("catSelect");
+
+// Search History Management
+function saveSearch(category, mode, radius) {
+    let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+    const search = {
+        category,
+        mode,
+        radius: mode === "range" ? radius : null,
+        timestamp: Date.now()
+    };
+    
+    // Remove duplicate if exists
+    history = history.filter(s => !(s.category === category && s.mode === mode && s.radius === search.radius));
+    
+    // Add new search at front
+    history.unshift(search);
+    
+    // Keep only last 8 searches
+    history = history.slice(0, 8);
+    
+    localStorage.setItem("searchHistory", JSON.stringify(history));
+    displayHistory();
+}
+
+function displayHistory() {
+    const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+    const historyList = document.getElementById("historyList");
+    historyList.innerHTML = "";
+    
+    if (history.length === 0) {
+        historyList.innerHTML = '<div style="font-size: 12px; color: #999;">No history yet</div>';
+        return;
+    }
+    
+    history.forEach(search => {
+        const item = document.createElement("div");
+        item.className = "historyItem";
+        const label = search.mode === "range" ? `${search.category} (${search.radius}km)` : search.category;
+        item.textContent = label;
+        item.onclick = () => repeatSearch(search);
+        historyList.appendChild(item);
+    });
+}
+
+function repeatSearch(search) {
+    catSelect.value = search.category;
+    if (search.mode === "range") {
+        searchMode = "range";
+        nearestBtn.classList.remove("active");
+        rangeBtn.classList.add("active");
+        radiusInput.style.display = "inline-block";
+        radiusInput.value = search.radius;
+    } else {
+        searchMode = "nearest";
+        nearestBtn.classList.add("active");
+        rangeBtn.classList.remove("active");
+        radiusInput.style.display = "none";
+    }
+    findAmenities();
+}
+
+function clearHistory() {
+    localStorage.removeItem("searchHistory");
+    displayHistory();
+}
 
 // Button click handlers
 nearestBtn.addEventListener("click", ()=>{
@@ -67,13 +143,15 @@ rangeBtn.addEventListener("click", ()=>{
     findAmenities();
 });
 
-catSelect.addEventListener("change", findAmenities);
-radiusInput.addEventListener("input", ()=>{ if(searchMode==="range") findAmenities(); });
-
 // Function to find amenities
 function findAmenities(){
     const category = catSelect.value;
     const radius = parseFloat(radiusInput.value);
+
+    // Save to history only if valid (don't save range searches without a radius)
+    if(searchMode === "nearest" || (searchMode === "range" && !isNaN(radius))) {
+        saveSearch(category, searchMode, radius);
+    }
 
     let url = `/search?lat=${RVCE.lat}&lon=${RVCE.lon}&category=${category}`;
     if(searchMode==="range" && !isNaN(radius)) url += `&radius=${radius}`;
@@ -110,6 +188,7 @@ function findAmenities(){
 }
 
 // Initial load
+displayHistory();
 findAmenities();
 </script>
 </body>

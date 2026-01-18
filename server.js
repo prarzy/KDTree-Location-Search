@@ -13,7 +13,7 @@ app.get('/search', (req, res) => {
     const args = [lat, lon, category];
     if (radius) args.push(radius); // optional radius for "within range"
 
-    execFile('./search.exe', args, (err, stdout, stderr) => {
+    execFile('./logic.exe', args, (err, stdout, stderr) => {
         if (err) return res.status(500).send(stderr);
         try {
             const data = JSON.parse(stdout);
