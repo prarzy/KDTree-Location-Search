@@ -6,43 +6,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <style>
-#map{height:100vh;}
-#title { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; font-size: 24px; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.3); text-align: center; }
-#category { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 10px; font-size: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); } 
-#category select, #category input { padding: 5px; border-radius: 5px; border: solid black; font-size: 16px; margin-left:5px; }
-#resultsBox{position:absolute;bottom:50px;left:30px;background:white;padding:10px;z-index:1000;border-radius:6px; max-height: 200px; overflow-y: auto;}
-button { margin-left:5px; padding:5px 10px; border-radius:5px; border:none; cursor:pointer; }
-button.active { background:#3498db; color:white; }
-#historyBox { position: absolute; top: 60px; right: 20px; background: white; padding: 10px; z-index: 1000; border-radius: 6px; max-width: 200px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
-.historyTitle { font-weight: bold; margin-bottom: 8px; font-size: 14px; }
-.historyItem { padding: 5px; margin: 3px 0; background: #f0f0f0; border-radius: 4px; cursor: pointer; font-size: 12px; border-left: 3px solid #3498db; }
-.historyItem:hover { background: #e0e0e0; }
-.historyClear { font-size: 11px; color: #999; cursor: pointer; margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; }
-.historyClear:hover { color: #666; }
+    #map{height:100vh;}
+    #title { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; font-size: 24px; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.3); text-align: center; }
+    #category { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 10px; font-size: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); text-align: center;} 
+    #category select, #category input { padding: 5px; border-radius: 5px; border: 1px solid black; font-size: 14px; margin: 2px; }
+    #resultsBox{position:absolute;bottom:50px;left:30px;background:white;padding:10px;z-index:1000;border-radius:6px; max-height: 250px; width: 260px; overflow-y: auto; box-shadow: 0 2px 6px rgba(0,0,0,0.3);}
+    button { margin: 2px; padding:5px 10px; border-radius:5px; border:none; cursor:pointer; font-weight: bold; }
+    button.active { background:#3498db; color:white; }
+    #historyBox { position: absolute; top: 60px; right: 20px; background: white; padding: 10px; z-index: 1000; border-radius: 6px; max-width: 200px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+    .historyTitle { font-weight: bold; margin-bottom: 8px; font-size: 14px; }
+    .historyItem { padding: 5px; margin: 3px 0; background: #f0f0f0; border-radius: 4px; cursor: pointer; font-size: 12px; border-left: 3px solid #3498db; }
+    #errandListDisplay { font-size: 12px; color: #27ae60; margin-top: 5px; font-weight: bold; }
+    #goBtn { background: #34495e; color: white; display: none; }
 </style>
 </head>
 <body>
-<!-- Title and Controls -->
+
 <div id="title">---CampusNearby---</div>
+
 <div id="category">
-Category:
-<select id="catSelect">
-<option value="all">All</option>
-<option value="hospital">Hospital</option>
-<option value="restaurant">Restaurant</option>
-<option value="atm">ATM</option>
-</select>
-<button id="nearestBtn" class="active">Find Nearest</button>
-<button id="rangeBtn">Find Within Range</button>
-<input type="number" id="radiusInput" placeholder="km" min="0.1" max="10" step="0.1" style="width:60px; padding:2px; border-radius:4px; border:1px solid #ccc; display:none;">
+    Category:
+    <select id="catSelect">
+        <option value="all">All</option>
+        <option value="hospital">Hospital</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="atm">ATM</option>
+    </select>
+    <br>
+    <button id="nearestBtn" class="active">Find Nearest</button>
+    <button id="rangeBtn">Range Search</button>
+    <button id="addStopBtn" style="background: #f39c12; color: white;">+ Add Stop</button>
+    <button id="runErrandBtn" style="background: #27ae60; color: white; display:none;">Run Errand Path</button>
+    <button id="resetErrandBtn" style="background: #95a5a6; color: white; display:none;">Clear</button>
+    <input type="number" id="radiusInput" placeholder="km" min="0.1" max="10" step="0.1" style="width:50px; display:none;">
+    <button id="goBtn">🔍</button>
+    <div id="errandListDisplay"></div>
 </div>
 
 <div id="map"></div>
 <div id="resultsBox"><b>Results</b><ol id="list"></ol></div>
+
 <div id="historyBox">
     <div class="historyTitle">Search History</div>
     <div id="historyList"></div>
-    <div class="historyClear" onclick="clearHistory()">Clear history</div>
+    <div class="historyClear" onclick="clearHistory()" style="cursor:pointer; font-size:11px; color:#999;">Clear history</div>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -55,141 +62,244 @@ L.marker([RVCE.lat,RVCE.lon]).addTo(map).bindPopup("<b>RV College of Engineering
 let nearestMarkers = [];
 let nearestLines = [];
 let searchMode = "nearest";
+let rangeCircle = null; 
+let errandSequence = []; 
 
 const nearestBtn = document.getElementById("nearestBtn");
 const rangeBtn = document.getElementById("rangeBtn");
 const radiusInput = document.getElementById("radiusInput");
+const goBtn = document.getElementById("goBtn");
 const catSelect = document.getElementById("catSelect");
+const addStopBtn = document.getElementById("addStopBtn");
+const runErrandBtn = document.getElementById("runErrandBtn");
+const resetErrandBtn = document.getElementById("resetErrandBtn");
+const errandListDisplay = document.getElementById("errandListDisplay");
 
-// Search History Management
-function saveSearch(category, mode, radius) {
+function clearMap() {
+    nearestMarkers.forEach(m => map.removeLayer(m));
+    nearestLines.forEach(l => map.removeLayer(l));
+    if(rangeCircle) map.removeLayer(rangeCircle);
+    nearestMarkers = []; nearestLines = []; rangeCircle = null;
+}
+
+function saveSearch(label, mode = "nearest", radius = null) {
+    if (mode === "range" && (!radius || isNaN(radius))) return; 
+
     let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
-    const search = {
-        category,
-        mode,
-        radius: mode === "range" ? radius : null,
-        timestamp: Date.now()
+    const entry = { 
+        display: label, 
+        category: catSelect.value, 
+        mode: mode, 
+        radius: (mode === "range") ? radius : null 
     };
-    
-    // Remove duplicate if exists
-    history = history.filter(s => !(s.category === category && s.mode === mode && s.radius === search.radius));
-    
-    // Add new search at front
-    history.unshift(search);
-    
-    // Keep only last 8 searches
-    history = history.slice(0, 8);
-    
+
+    history = history.filter(h => !(h.category === entry.category && h.radius === entry.radius));
+    history.unshift(entry);
+    if (history.length > 8) history.pop();
+
     localStorage.setItem("searchHistory", JSON.stringify(history));
     displayHistory();
 }
 
 function displayHistory() {
     const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
-    const historyList = document.getElementById("historyList");
-    historyList.innerHTML = "";
+    const list = document.getElementById("historyList");
+    list.innerHTML = history.length ? "" : "No history";
     
-    if (history.length === 0) {
-        historyList.innerHTML = '<div style="font-size: 12px; color: #999;">No history yet</div>';
-        return;
-    }
-    
-    history.forEach(search => {
-        const item = document.createElement("div");
-        item.className = "historyItem";
-        const label = search.mode === "range" ? `${search.category} (${search.radius}km)` : search.category;
-        item.textContent = label;
-        item.onclick = () => repeatSearch(search);
-        historyList.appendChild(item);
+    history.forEach(s => {
+        let div = document.createElement("div");
+        div.className = "historyItem";
+        div.innerText = s.display === "Errand" ? "Errand" : 
+                       (s.mode === "range" ? `${s.display} (${s.radius}km)` : s.display);
+        
+        div.onclick = () => {
+            if (s.display === "Errand") {
+                alert("Please build a new path using '+ Add Stop'");
+            } else {
+                catSelect.value = s.category;
+                searchMode = s.mode;
+                if(s.mode === "range") {
+                    radiusInput.value = s.radius;
+                    radiusInput.style.display = "inline-block";
+                    goBtn.style.display = "inline-block";
+                    nearestBtn.classList.remove("active");
+                    rangeBtn.classList.add("active");
+                } else {
+                    radiusInput.value = "";
+                    radiusInput.style.display = "none";
+                    goBtn.style.display = "none";
+                    nearestBtn.classList.add("active");
+                    rangeBtn.classList.remove("active");
+                }
+                findAmenities(true); 
+            }
+        };
+        list.appendChild(div);
     });
 }
 
-function repeatSearch(search) {
-    catSelect.value = search.category;
-    if (search.mode === "range") {
-        searchMode = "range";
-        nearestBtn.classList.remove("active");
-        rangeBtn.classList.add("active");
-        radiusInput.style.display = "inline-block";
-        radiusInput.value = search.radius;
-    } else {
-        searchMode = "nearest";
-        nearestBtn.classList.add("active");
-        rangeBtn.classList.remove("active");
-        radiusInput.style.display = "none";
+function clearHistory() { localStorage.removeItem("searchHistory"); displayHistory(); }
+
+addStopBtn.addEventListener("click", () => {
+    const cat = catSelect.value;
+    if(cat === "all") return alert("Pick a specific category!");
+    errandSequence.push(cat);
+    errandListDisplay.innerText = "Path: RVCE ➔ " + errandSequence.join(" ➔ ") + " ➔ RVCE";
+    runErrandBtn.style.display = "inline-block";
+    resetErrandBtn.style.display = "inline-block";
+});
+
+resetErrandBtn.addEventListener("click", () => {
+    errandSequence = [];
+    errandListDisplay.innerText = "";
+    runErrandBtn.style.display = "none";
+    resetErrandBtn.style.display = "none";
+    clearMap();
+});
+
+async function runErrandLoop() {
+    saveSearch("Errand");
+    clearMap();
+    let currentPos = { lat: RVCE.lat, lon: RVCE.lon };
+    let pathPoints = [[RVCE.lat, RVCE.lon]];
+    
+    // RESTORED: This clears the results box and sets the header for the errand
+    const list = document.getElementById("list");
+    list.innerHTML = "<b>Step-by-Step Route:</b>";
+
+    for (let i = 0; i < errandSequence.length; i++) {
+        const cat = errandSequence[i];
+        const url = `/search?lat=${currentPos.lat}&lon=${currentPos.lon}&category=${cat}`;
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.length > 0) {
+                const stop = data[0]; 
+                const nextPoint = [stop.lat, stop.lon];
+                const icons = { hospital: "🏥", restaurant: "🍔", atm: "🏧" };
+                let emoji = icons[stop.amenity.toLowerCase()] || "📍";
+                
+                let marker = L.marker(nextPoint, {
+                    icon: L.divIcon({
+                        html: `<div style="font-size:24px; filter: drop-shadow(2px 2px 1px black);">${emoji}</div>`,
+                        className: 'dummy', iconAnchor: [15, 15]
+                    })
+                }).addTo(map).bindPopup(`<b>Stop ${i+1}</b><br>${stop.name}`);
+                nearestMarkers.push(marker);
+
+                let segment = L.polyline([pathPoints[pathPoints.length-1], nextPoint], {
+                    color: '#27ae60', weight: 5, opacity: 0.7
+                }).addTo(map);
+                nearestLines.push(segment);
+
+                // RESTORED: Building the clickable list item for the results box
+                let li = document.createElement("li");
+                li.style.cursor = "pointer";
+                li.style.margin = "5px 0";
+                li.innerHTML = `${stop.name}</b> (${cat})`;
+                li.onclick = () => {
+                    map.flyTo(nextPoint, 16);
+                    marker.openPopup();
+                };
+                list.appendChild(li);
+
+                pathPoints.push(nextPoint);
+                currentPos = { lat: stop.lat, lon: stop.lon };
+            }
+        } catch (e) { console.log(e); }
     }
-    findAmenities();
+
+    const finalLeg = [pathPoints[pathPoints.length-1], [RVCE.lat, RVCE.lon]];
+    let returnLine = L.polyline(finalLeg, { color: '#27ae60', weight: 5, opacity: 0.7 }).addTo(map);
+    nearestLines.push(returnLine);
+
+    map.fitBounds(L.polyline(pathPoints).getBounds(), { padding: [50, 50] });
+    errandSequence = [];
+    errandListDisplay.innerText = "";
+    runErrandBtn.style.display = "none";
+    resetErrandBtn.style.display = "none";
 }
 
-function clearHistory() {
-    localStorage.removeItem("searchHistory");
-    displayHistory();
-}
-
-// Button click handlers
-nearestBtn.addEventListener("click", ()=>{
-    searchMode="nearest";
-    nearestBtn.classList.add("active");
-    rangeBtn.classList.remove("active");
-    radiusInput.style.display="none";
-    findAmenities();
-});
-
-rangeBtn.addEventListener("click", ()=>{
-    searchMode="range";
-    nearestBtn.classList.remove("active");
-    rangeBtn.classList.add("active");
-    radiusInput.style.display="inline-block";
-    findAmenities();
-});
-
-// Function to find amenities
-function findAmenities(){
+function findAmenities(skipSave = false){
     const category = catSelect.value;
     const radius = parseFloat(radiusInput.value);
 
-    // Save to history only if valid (don't save range searches without a radius)
-    if(searchMode === "nearest" || (searchMode === "range" && !isNaN(radius))) {
-        saveSearch(category, searchMode, radius);
-    }
-
+    if(!skipSave) saveSearch(category, searchMode, radius);
+    
     let url = `/search?lat=${RVCE.lat}&lon=${RVCE.lon}&category=${category}`;
     if(searchMode==="range" && !isNaN(radius)) url += `&radius=${radius}`;
 
-    fetch(url)
-    .then(res => res.json())
-    .then(data=>{
-        // Clear previous markers and lines
-        nearestMarkers.forEach(m=>map.removeLayer(m));
-        nearestLines.forEach(l=>map.removeLayer(l));
-        nearestMarkers=[]; nearestLines=[];
+    fetch(url).then(res => res.json()).then(data => {
+        data.sort((a, b) => a.dist - b.dist);
+        clearMap();
 
-        
+        if(searchMode === "range" && !isNaN(radius)) {
+            rangeCircle = L.circle([RVCE.lat, RVCE.lon], { radius: radius * 1000, color: '#3498db', fillOpacity: 0.1, weight: 1 }).addTo(map);
+            map.fitBounds(rangeCircle.getBounds(), {padding: [20, 20]});
+        }
+
         const list = document.getElementById("list");
-        list.innerHTML="";
+        list.innerHTML = "";
 
-        data.forEach(p=>{
-            // Marker
-            let marker=L.circleMarker([p.lat,p.lon],{radius:8,color:"red"})
-                .addTo(map)
-                .bindPopup(`<b>${p.name}</b><br>${p.amenity}<br>${p.dist.toFixed(2)} km`);
+        data.forEach(p => {
+            const icons = { hospital: "🏥", restaurant: "🍔", atm: "🏧" };
+            let emoji = icons[p.amenity.toLowerCase()] || "📍";
+            let marker = L.marker([p.lat, p.lon], {
+                icon: L.divIcon({
+                    html: `<div style="font-size:24px;">${emoji}</div>`,
+                    className: 'dummy', iconAnchor: [15, 15]
+                })
+            }).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.dist.toFixed(2)} km`);
             nearestMarkers.push(marker);
 
-            // Line
-            let line=L.polyline([[RVCE.lat,RVCE.lon],[p.lat,p.lon]],{color:'blue'}).addTo(map);
+            let line = L.polyline([[RVCE.lat, RVCE.lon], [p.lat, p.lon]], { color: 'darkblue', weight: 4, opacity: 0.4 }).addTo(map);
             nearestLines.push(line);
 
-            // List
-            let li=document.createElement("li");
-            li.textContent=`${p.name} (${p.amenity}) - ${p.dist.toFixed(2)} km`;
+            let li = document.createElement("li");
+            li.style.cursor = "pointer";
+            li.innerHTML = `<b>${p.name}</b> - ${p.dist.toFixed(2)} km`;
+            li.onclick = () => { map.flyTo([p.lat, p.lon], 16); marker.openPopup(); };
             list.appendChild(li);
         });
     });
 }
 
-// Initial load
+nearestBtn.addEventListener("click", () => {
+    searchMode = "nearest";
+    nearestBtn.classList.add("active");
+    rangeBtn.classList.remove("active");
+    radiusInput.style.display = "none";
+    goBtn.style.display = "none";
+    radiusInput.value = ""; 
+    findAmenities();
+});
+
+rangeBtn.addEventListener("click", () => {
+    searchMode = "range";
+    nearestBtn.classList.remove("active");
+    rangeBtn.classList.add("active");
+    radiusInput.style.display = "inline-block";
+    goBtn.style.display = "inline-block";
+    radiusInput.value = ""; 
+    radiusInput.focus();
+});
+
+// TRIGGER SEARCH ONLY HERE
+goBtn.addEventListener("click", () => {
+    if(radiusInput.value > 0) findAmenities();
+    else alert("Please enter a distance!");
+});
+
+// OR PRESS ENTER
+radiusInput.addEventListener("keypress", (e) => {
+    if(e.key === "Enter") goBtn.click();
+});
+
+runErrandBtn.addEventListener("click", runErrandLoop);
+
 displayHistory();
-findAmenities();
+findAmenities(true); 
+
 </script>
 </body>
 </html>
